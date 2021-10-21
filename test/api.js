@@ -3,13 +3,16 @@ let chaiHttp = require('chai-http');
 let server = require('../server');
 let should = chai.should();
 chai.use(chaiHttp);
+const agent = chai.request.agent(server);
 // chai.use(should);
-
+after(() => {
+  agent.close();
+});
 describe('API Test', () => {
   describe('/GET :category', () => {
     
     it('it should not GET BMI count', (done) => {
-      chai.request(server)
+     agent
         .get('/underweight1')
         .end((err, res) => {
           res.should.have.status(404);
@@ -18,7 +21,7 @@ describe('API Test', () => {
     });
 
     it('it should GET a Underweight BMI count', (done) => {
-      chai.request(server)
+     agent
         .get('/underweight')
         .end((err, res) => {
           res.should.have.status(200);
@@ -33,7 +36,7 @@ describe('API Test', () => {
     });
 
     it('it should GET a Normal weight BMI count', (done) => {
-      chai.request(server)
+     agent
         .get('/normal_weight')
         .end((err, res) => {
           res.should.have.status(200);
@@ -48,7 +51,7 @@ describe('API Test', () => {
     });
 
     it('it should GET a Overweight BMI count', (done) => {
-      chai.request(server)
+     agent
         .get('/overweight')
         .end((err, res) => {
           res.should.have.status(200);
@@ -63,7 +66,7 @@ describe('API Test', () => {
     });
 
     it('it should GET a Moderately obese BMI count', (done) => {
-      chai.request(server)
+     agent
         .get('/moderately_obese')
         .end((err, res) => {
           res.should.have.status(200);
@@ -78,7 +81,7 @@ describe('API Test', () => {
     });
 
     it('it should GET a Severely obese BMI count', (done) => {
-      chai.request(server)
+     agent
         .get('/severely_obese')
         .end((err, res) => {
           res.should.have.status(200);
@@ -93,7 +96,7 @@ describe('API Test', () => {
     });
 
     it('it should GET a Very severely obese BMI count', (done) => {
-      chai.request(server)
+     agent
         .get('/very_severely_obese')
         .end((err, res) => {
           res.should.have.status(200);
