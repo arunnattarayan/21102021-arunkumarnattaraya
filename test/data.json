@@ -1,0 +1,32 @@
+[{
+  "Gender": "Female",
+  "HeightCm": 175,
+  "WeightKg": 50
+},
+  {
+    "Gender": "Female",
+    "HeightCm": 175,
+    "WeightKg": 75
+  },
+  {
+    "Gender": "Male",
+    "HeightCm": 175,
+    "WeightKg": 78
+  },
+  {
+    "Gender": "Male",
+    "HeightCm": 175,
+    "WeightKg": 95
+  },
+  {
+    "Gender": "Male",
+    "HeightCm": 175,
+    "WeightKg": 110
+  },
+  {
+    "Gender": "Male",
+    "HeightCm": 175,
+    "WeightKg": 130
+  }
+
+]
