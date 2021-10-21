@@ -1,22 +1,26 @@
-const http = require('http');
-const etl = require('./etl');
+const express = require('express');
+const app = express();
+const etl = require('./src/etl');
 
-
-const requestListener = async function (req, res) {
+const port = 8080;
+const category = etl.category.map(c => c.toLowerCase().split(" ").join('_'));
+app.get(`/:category(${category.join('|')})`, async (req, res, next) => {
   try {
-    let data = await etl.count().catch((err) => {throw err});
+    let param = etl.category[category.indexOf(req.params.category)];
+    let data = await etl.count(param).catch((err) => { throw err });
     res.setHeader("Content-Type", "application/json");
-    res.writeHead(200);
-    res.end(JSON.stringify({result: data}));
-  } catch(err) {
-    res.writeHead(500);
-    res.end(err.toString());
+    res.status(200).send({ result: data });
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(err.toString());
   }
-  
-}
+});
 
-const server = http.createServer(requestListener);
-server.listen(8080);
+app.use((req, res) => {
+  res.status(404).send('Not Found');
+});
 
+app.listen(port);
+console.log("Listening on port " + port);
 
-module.exports.server = server;
+module.exports = app;

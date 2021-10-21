@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { count, peopleData } = require('../etl');
+const { count, peopleData } = require('../src/etl');
 const path = require('path');
 let peopleInstance = peopleData();
 
@@ -163,12 +163,12 @@ describe('Process pepople data', () => {
   describe('Validate parsed data counts based on BMI Category', () => {
     it('should return valid count', async() => {
       let res = [];
-      res[0] = await count('Overweight', path.join(__dirname , '/data.json'));
-      res[1] = await count('Underweight', path.join(__dirname , '/data.json'));
-      res[2] = await count('Normal weight', path.join(__dirname , '/data.json'));
-      res[3] = await count('Moderately obese', path.join(__dirname , '/data.json'));
-      res[4] = await count('Severely obese', path.join(__dirname , '/data.json'));
-      res[5] = await count('Very severely obese', path.join(__dirname , '/data.json'));
+      res[0] = await count('Overweight', path.join(__dirname , 'data.json'));
+      res[1] = await count('Underweight', path.join(__dirname , 'data.json'));
+      res[2] = await count('Normal weight', path.join(__dirname , 'data.json'));
+      res[3] = await count('Moderately obese', path.join(__dirname , 'data.json'));
+      res[4] = await count('Severely obese', path.join(__dirname , 'data.json'));
+      res[5] = await count('Very severely obese', path.join(__dirname , 'data.json'));
       let resultCount = res.map( r => r.count);
       expect(resultCount).to.eql([1,1,1,1,1,1])
     });

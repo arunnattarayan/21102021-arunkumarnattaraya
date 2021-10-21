@@ -2,17 +2,18 @@ const fs = require('fs');
 const { Writable } = require('stream');
 const sa = require('stream-json/streamers/StreamArray');
 const util = require('util');
+const path = require('path');
 /**
  * Thease are information based on information
  */
 const CATEGORY = ['Underweight', 'Normal weight', 'Overweight', 'Moderately obese', 'Severely obese', 'Very severely obese']
 const HEATH_RISK = ['Malnutrition risk', 'Low risk', 'Enhanced risk', 'Medium risk', 'High risk', 'Very high risk']
 const BMI_RANGE = [[null, 18.4], [18.5, 24.9], [25, 29.9], [30, 34.9], [35, 39.9], [40, null]];
-
+const DEFAULT_DATA_PATH = path.join(__dirname, 'data.json');
 
 class PeopleStream {
 
-  constructor(name = 'Overweight', data = './data.json') {
+  constructor(name = 'Overweight', data = DEFAULT_DATA_PATH) {
     this.categoryName = name;
     this.jsonStream = sa.withParser();
     this.fileStream = fs.createReadStream(data);
@@ -95,7 +96,7 @@ function peopleData(name, filePath) {
   return new PeopleStream(name, filePath);
 }
 
-async function getCount(name = 'Overweight', data = './data.json') {
+async function getCount(name = 'Overweight', data = DEFAULT_DATA_PATH) {
   let etl = peopleData(name, data);
   try {
     return await util.promisify(etl.init).bind(etl)().catch((err) => { throw err });
@@ -106,5 +107,6 @@ async function getCount(name = 'Overweight', data = './data.json') {
 
 module.exports = {
   count: getCount,
-  peopleData: peopleData
+  peopleData: peopleData,
+  category: CATEGORY
 }
